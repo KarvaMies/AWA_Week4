@@ -8,6 +8,8 @@ var recipesRouter = require('./routes/recipes');
 
 var app = express();
 
+const port = 3000;
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -17,6 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/recipe', recipesRouter);
 
-app.listen(3000)
+app.listen(port, () => console.log("Server is listening port " + port + "!"));
 
 module.exports = app;
