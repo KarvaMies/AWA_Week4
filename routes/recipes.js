@@ -43,9 +43,9 @@ router.get("/:food", function(req, res) {
     </ul>
   `;
 
-  res.send(html);
+  //res.send(html);
   //res.sendFile(path.join(__dirname, '../public/recipes.html'));
-  //res.json(recipe);
+  res.json(html);
 })
 
 
