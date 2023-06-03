@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 
-
-/* GET recipes listing. */
-
 router.get('/', function(req, res, next) {
   res.send("You forgot the recipe from the URL.");
 });
