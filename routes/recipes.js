@@ -3,11 +3,11 @@ var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 
-router.get('/', function(req, res, next) {
+router.get('/recipe', function(req, res, next) {
   res.send("You forgot the recipe from the URL.");
 });
 
-router.get("/:food", function(req, res) {
+router.get("/recipe/:food", function(req, res) {
   recipe = {
     name: req.params.food,
     instructions: ["First do this.", "After this do that."],
@@ -26,7 +26,7 @@ router.get("/:food", function(req, res) {
     </ul>
   `;
 
-  let htmlPath = path.join(__dirname, '../public/index.html');
+  let htmlPath = path.join(__dirname, '../public/recipes.html');
   fs.readFile(htmlPath, 'utf-8', (err, data) => {
     if (err) {
       console.error(err);
@@ -40,9 +40,6 @@ router.get("/:food", function(req, res) {
   })
 
 
-
-  //res.send(html);
-  //res.sendFile(path.join(__dirname, '../public/recipes.html'));
   //res.json(recipe);
 })
 
