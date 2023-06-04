@@ -1,52 +1,44 @@
-document.getElementById('submit').addEventListener('click', () => {
-    let name = document.getElementById('name-text').value;
-    let ingredients = document.getElementById('ingredients-text').value.split('\n');
-    let instructions = document.getElementById('instructions-text').value.split('\n');
-
-    let recipe = {
-        name: name,
-        instructions: instructions,
-        ingredients: ingredients
-    };
-
-    fetch('/recipe/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(recipe)
-    })
-    .then(response => response.json())
-    .then(recipe => {
-        console.log(recipe);
-    })
-    .catch(error => {
-        console.error(error);
-    });
-});
+let ingredientList = [];
+let instructionList = [];
 
 document.getElementById('add-ingredient').addEventListener('click', () => {
     let ingredient = document.getElementById('ingredients-text').value;
-    let ingredientsList = document.getElementById('ingredients-list');
-
-    let li = document.createElement('li');
-    li.innerText = ingredient;
-    ingredientsList.appendChild(li);
-
+    console.log(ingredient);
+    ingredientList.push(ingredient);
     document.getElementById('ingredients-text').value = '';
-});
+})
 
 document.getElementById('add-instruction').addEventListener('click', () => {
     let instruction = document.getElementById('instructions-text').value;
-    let instructionsList = document.getElementById('instructions-list');
-
-    let li = document.createElement('li');
-    li.innerText = instruction;
-    instructionsList.appendChild(li);
-
+    console.log(instruction);
+    instructionList.push(instruction);
     document.getElementById('instructions-text').value = '';
 })
 
+
+document.getElementById('submit').addEventListener('click', () => {
+    let name = document.getElementById('name-text').value;
+    let recipe = {
+      name: name,
+      instructions: instructionList,
+      ingredients: ingredientList
+    };
+  
+    fetch('/recipe/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(recipe)
+    })
+    .then(response => response.json())
+    .then(recipe => {
+      console.log(recipe);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  });
 
 
 fetch('/recipe/Pizza')
