@@ -1,19 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const multer = require('multer');
-
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images');
-  },
-  filename: function (req, file, cb) {
-    let uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.filename + '-' + uniqueSuffix + '-' + file.originalname.split('.').pop());
-  }
-});
-
-let upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/recipes.html'));
@@ -44,11 +31,5 @@ router.post('/recipe/', (req, res) => {
 
   res.json(recipe);
 })
-
-router.post('/images', upload.array('images'), (req, res) => {
-  console.log(req.files);
-
-  res.send('Hi');
-});
 
 module.exports = router;
