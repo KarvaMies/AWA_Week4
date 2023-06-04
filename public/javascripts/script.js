@@ -1,33 +1,59 @@
+document.getElementById('submit').addEventListener('click', () => {
+    let name = document.getElementById('name-text').value;
+    let ingredients = document.getElementById('ingredients-text').value.split('\n');
+    let instructions = document.getElementById('instructions-text').value.split('\n');
 
-// todo:
-/*
-siirrä html generointi recipes.js -> tänne ja kato mesierkki public/js/wall.js
-ja jotenkin yritä saada fetchillä tai jotenki se resepti tms
-*/
-/*
-let food = window.location.pathname.split('/').pop();
-console.log(`the food from URL: ${food}`);
-*/
-/*
-let html = `
-    <h2>${recipe.name}</h2>
-    <h3>Instructions:</h3>
-    <ul>
-    ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
-    </ul>
-    <h3>Ingredients:</h3>
-    <ul>
-      ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
-    </ul>
-  `;
-*/
+    let recipe = {
+        name: name,
+        instructions: instructions,
+        ingredients: ingredients
+    };
 
-// Make a GET request to fetch the recipe data from the server
+    fetch('/recipe/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(recipe)
+    })
+    .then(response => response.json())
+    .then(recipe => {
+        console.log(recipe);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
+
+document.getElementById('add-ingredient').addEventListener('click', () => {
+    let ingredient = document.getElementById('ingredients-text').value;
+    let ingredientsList = document.getElementById('ingredients-list');
+
+    let li = document.createElement('li');
+    li.innerText = ingredient;
+    ingredientsList.appendChild(li);
+
+    document.getElementById('ingredients-text').value = '';
+});
+
+document.getElementById('add-instruction').addEventListener('click', () => {
+    let instruction = document.getElementById('instructions-text').value;
+    let instructionsList = document.getElementById('instructions-list');
+
+    let li = document.createElement('li');
+    li.innerText = instruction;
+    instructionsList.appendChild(li);
+
+    document.getElementById('instructions-text').value = '';
+})
+
+
+
 fetch('/recipe/Pizza')
   .then(response => response.json())
   .then(recipe => {
     console.log(`recipe: ${recipe}`);
-    // Create HTML elements based on the recipe data
+
     var recipeName = document.createElement("h2");
     recipeName.innerText = recipe.name;
 
@@ -51,7 +77,6 @@ fetch('/recipe/Pizza')
       ingredientsList.appendChild(li);
     });
 
-    // Append the elements to the recipe container
     var recipeContainer = document.getElementById("recipe-container");
     recipeContainer.appendChild(recipeName);
     recipeContainer.appendChild(instructionsHeading);
@@ -62,4 +87,3 @@ fetch('/recipe/Pizza')
   .catch(error => {
     console.error(error);
   });
-
