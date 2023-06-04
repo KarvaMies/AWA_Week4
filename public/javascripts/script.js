@@ -18,22 +18,28 @@ document.getElementById('add-instruction').addEventListener('click', () => {
 
 document.getElementById('submit').addEventListener('click', () => {
     let name = document.getElementById('name-text').value;
-    let recipe = {
-      name: name,
-      instructions: instructionList,
-      ingredients: ingredientList
-    };
+
+    let inputElement = document.getElementById('image-input');
+    let files = inputElement.files;
+
+    let formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('instructions', JSON.stringify(instructionList));
+    formData.append('ingredients', JSON.stringify(ingredientList));
+
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        formData.append('images', file);
+    }
   
-    fetch('/recipe/', {
+    fetch('/images', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(recipe)
+      body: formData
     })
-    .then(response => response.json())
-    .then(recipe => {
-      console.log(recipe);
+    .then(response => response.text())
+    .then(data => {
+      console.log(data);
     })
     .catch(error => {
       console.error(error);
