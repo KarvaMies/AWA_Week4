@@ -3,6 +3,10 @@ var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/recipes.html'));
+});
+
 router.get('/recipe', function(req, res, next) {
   res.send("You forgot the recipe from the URL.");
 });
@@ -14,6 +18,7 @@ router.get("/recipe/:food", function(req, res) {
     ingredients: ["ingredient#1", "ingredient#2", "ingredient#3", "ingredient#4", "ingredient#5"]
   };
 
+  /* moved to client side code -> public/javascripts/script.js
   let html = `
     <h2>${recipe.name}</h2>
     <h3>Instructions:</h3>
@@ -38,9 +43,19 @@ router.get("/recipe/:food", function(req, res) {
 
     res.send(updatedHtml);
   })
-
-
-  //res.json(recipe);
+  */
+ /*
+  res.sendFile(path.join(__dirname, '../public/recipes.html'), function (err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error loading recipes.html');
+    }
+    else {
+      res.locals.recipe = recipe;
+    }
+  });
+  */
+  res.json(recipe);
 })
 
 
